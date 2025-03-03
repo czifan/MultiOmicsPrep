@@ -18,3 +18,4 @@ duplicated case ids (0):
 
 ## data_mutations.txt
 
+982 rows (cases) × 17680 columns (genes)

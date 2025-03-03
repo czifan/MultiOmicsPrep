@@ -38,4 +38,5 @@ columns_to_keep = missing_value_ratio[missing_value_ratio <= 0.0].index
 my_sample_data = my_sample_data[columns_to_keep]
 
 os.makedirs(os.path.dirname(args.save_file), exist_ok=True)
+print(my_sample_data.head())
 my_sample_data.to_csv(args.save_file, index=False)

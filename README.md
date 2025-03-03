@@ -14,7 +14,9 @@ For CNV data, the process uses the `data_cna.txt` file from the downloaded direc
 - **Filtering genes with missing expression values**.
 - **Saving the processed data as a CSV file**: rows represent cases, and columns represent genes.
 
-The CNV gene data will be saved with the naming format `{gene}_cnv`. Note that this procedure yields over ten thousand genes, whereas prior works (e.g., MCAT and PORPOISE) typically have around two thousand genes—likely due to additional filtering steps such as high-variance gene selection. Contributions to refine this filtering are welcome.
+The CNV gene data will be saved with the naming format `{gene}_cnv`. 
+
+> **Note:** This procedure yields over ten thousand genes, whereas prior works (e.g., MCAT and PORPOISE) typically have around two thousand genes—likely due to additional filtering steps such as high-variance gene selection. Contributions to refine this filtering are welcome.
 
 ### Usage
 
@@ -44,7 +46,24 @@ python mrnaseq_to_csv.py --raw_file $RAW_MRNA_FILE --save_file $SAVE_MRNA_FILE
 
 ## Mutations Data Processing
 
-At this time, a robust method for processing mutation data has not been identified. Contributions and suggestions from experienced users are highly encouraged to complete this part of the pipeline.
+For mutation data, the pipeline uses the downloaded `data_mutations.txt` file, and the processing is handled by the `mutation_to_csv.py` script. The main steps are as follows:
+
+- **Extracting Case IDs:** Retrieve the case IDs from the `Tumor_Sample_Barcode` column.
+- **Extracting Genes:** Retrieve the gene names from the `Hugo_Symbol` column.
+- **Constructing the Mutation Matrix:** Iterate over the records in `data_mutations.txt` and, for each case and gene, set the corresponding matrix entry to 1 (indicating the presence of a mutation) and 0 for cases where no mutation is observed.
+- **Saving the Processed Data:** Save the mutation matrix as a CSV file, rows represent cases, and columns represent genes.
+
+The mutation data  will be saved with the naming format `{gene}_mut`.
+
+> **Note:** Most mutation genes have very low mutation rates. For example, among approximately one thousand individuals, only a few may exhibit mutations in a specific gene. This severe class imbalance could affect downstream analyses, so it may be necessary to apply additional filtering to ensure effective modeling.
+
+### Usage
+
+```bash
+RAW_MUT_FILE=<path_to_data_mutations.txt>
+SAVE_MUT_FILE=<path_to_save_csv_file>
+python mutation_to_csv.py --raw_file $RAW_MUT_FILE --save_file $SAVE_MUT_FILE
+```
 
 ## Acknowledgments
 
